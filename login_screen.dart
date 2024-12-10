@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:food/tab_menu_page.dart';
+import 'package:flutter_final_food_update/tab_menu_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -40,7 +40,9 @@ class _LoginPageState extends State<LoginPage> {
             username: jsonRes['user']['username'],
             password: jsonRes['user']['password'],
             name: jsonRes['user']['name'], // Pass fname
-            status: jsonRes['user']['status'], // Pass lname
+            status: jsonRes['user']['status'],
+            avatar: jsonRes['user']['avatar'] ??
+                'https://via.placeholder.com/150', // Pass lname
           ),
         ),
       );

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:food/food.dart';
-import 'package:food/drink.dart';
-import 'package:food/login_screen.dart';
+import 'package:flutter_final_food_update/food.dart';
+import 'package:flutter_final_food_update/drink.dart';
+import 'package:flutter_final_food_update/login_screen.dart';
 
 class TabeMenuPage extends StatefulWidget {
   final String username;
   final String password;
   final String name;
   final String status;
+  final String? avatar;
 
   const TabeMenuPage({
     super.key,
@@ -15,6 +16,7 @@ class TabeMenuPage extends StatefulWidget {
     required this.password,
     required this.name,
     required this.status,
+    this.avatar,
   });
 
   @override
@@ -22,28 +24,18 @@ class TabeMenuPage extends StatefulWidget {
 }
 
 class _TabeMenuPageState extends State<TabeMenuPage> {
-  late String _username;
-  late String _name;
-  late String _status;
+  late List<dynamic> _cart;
 
   @override
   void initState() {
     super.initState();
-    _username = widget.username;
-    _name = widget.name;
-    _status = widget.status;
-
-    // Debug prints
-    print('Username: $_username');
-    print('Name: $_name');
-    print('Status: $_status');
+    _cart = []; // Initialize the cart here
   }
 
-  void _logout() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginPage()),
-    );
+  void _onOrderPlaced() {
+    setState(() {
+      _cart.clear(); // Clear the cart when the order is placed
+    });
   }
 
   @override
@@ -52,7 +44,7 @@ class _TabeMenuPageState extends State<TabeMenuPage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Dante 6610299'),
+          title: const Text('Food Delivery'),
           bottom: const TabBar(
             tabs: [
               Tab(text: 'Foods', icon: Icon(Icons.fastfood)),
@@ -63,21 +55,37 @@ class _TabeMenuPageState extends State<TabeMenuPage> {
         ),
         body: TabBarView(
           children: [
-            const FoodCart(),
-            const DrinkCart(),
+            FoodCart(
+                cart: _cart,
+                onOrderPlaced: _onOrderPlaced), // Pass cart to FoodCart
+            DrinkCart(
+                cart: _cart,
+                onOrderPlaced: _onOrderPlaced), // Pass cart to DrinkCart
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  Text('First name: $_name',
+                  Text('Name: ${widget.name}',
                       style: const TextStyle(
                           fontSize: 24, fontWeight: FontWeight.bold)),
-                  Text('Last name: $_status',
+                  Text('Email: ${widget.username}',
                       style: const TextStyle(
                           fontSize: 24, fontWeight: FontWeight.bold)),
-                  Text(_username,
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold)),
+                  CircleAvatar(
+                    radius: 50,
+                    child: ClipOval(
+                      child: Image.network(
+                        widget.avatar ?? '', // Use empty string if null
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Image.asset(
+                          'assets/placeholder_avatar.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
                   ElevatedButton(
                     onPressed: _logout,
                     child: const Text('Logout'),
@@ -88,6 +96,13 @@ class _TabeMenuPageState extends State<TabeMenuPage> {
           ],
         ),
       ),
+    );
+  }
+
+  void _logout() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()),
     );
   }
 }

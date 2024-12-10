@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food/login_screen.dart';
+import 'package:flutter_final_food_update/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Food',
+      title: 'Food Delivery',
       theme: ThemeData.light(),
       home: const LoginPage(),
     );
