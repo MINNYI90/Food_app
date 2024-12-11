@@ -24,7 +24,7 @@ class _DrinkCartState extends State<DrinkCart> {
 
   Future<void> _fetchDrinkItems() async {
     try {
-      final url = Uri.parse('https://apifood-gules.vercel.app/food_and_drinks');
+      final url = Uri.parse('https://api-11-12.vercel.app/food_and_drinks');
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
@@ -76,7 +76,11 @@ class _DrinkCartState extends State<DrinkCart> {
               final item = _drinkItems[index];
               return Card(
                 child: ListTile(
-                  leading: Image.network(item['image_url'] ?? ''),
+                  leading: Image.network(
+                    item['image_url'] ?? '',
+                    width: 40,
+                    height: 50,
+                  ),
                   title: Text(item['name'] ?? ''),
                   subtitle: Text('\$${item['price']}'),
                   trailing: IconButton(

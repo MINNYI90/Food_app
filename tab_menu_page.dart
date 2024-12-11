@@ -63,34 +63,41 @@ class _TabeMenuPageState extends State<TabeMenuPage> {
                 onOrderPlaced: _onOrderPlaced), // Pass cart to DrinkCart
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Text('Name: ${widget.name}',
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold)),
-                  Text('Email: ${widget.username}',
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold)),
-                  CircleAvatar(
-                    radius: 50,
-                    child: ClipOval(
-                      child: Image.network(
-                        widget.avatar ?? '', // Use empty string if null
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Image.asset(
-                          'assets/placeholder_avatar.png',
-                          fit: BoxFit.cover,
-                        ),
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Colors.black,
+                        width: 2.0), // Border around the container
+                    borderRadius:
+                        BorderRadius.circular(12.0), // Rounded corners
+                  ),
+                  padding: const EdgeInsets.all(
+                      16.0), // Padding inside the container
+                  child: Column(
+                    mainAxisSize: MainAxisSize
+                        .min, // Adjust the column size to fit its children
+                    children: [
+                      Text('Name: ${widget.name}',
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                      Text('Email: ${widget.username}',
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundImage: NetworkImage(widget.avatar!),
                       ),
-                    ),
+
+                      const SizedBox(
+                          height: 16), // Add space between avatar and button
+                      ElevatedButton(
+                        onPressed: _logout,
+                        child: const Text('Logout'),
+                      ),
+                    ],
                   ),
-                  ElevatedButton(
-                    onPressed: _logout,
-                    child: const Text('Logout'),
-                  ),
-                ],
+                ),
               ),
             ),
           ],
